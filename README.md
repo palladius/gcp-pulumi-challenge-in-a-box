@@ -1,2 +1,9 @@
 # gcp-pulumi-challenge-in-a-box
-GCP version of Challenge in a Box
+
+This repo contains the GCP version of Challenge in a Box (https://www.pulumi.com/challenge/startup-in-a-box/)
+
+
+# Instructions
+
+    pulumi login https://api.pulumi.com/
+    cd code/
