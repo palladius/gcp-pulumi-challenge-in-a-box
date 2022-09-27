@@ -5,5 +5,6 @@ This repo contains the GCP version of Challenge in a Box (https://www.pulumi.com
 
 # Instructions
 
-    pulumi login https://api.pulumi.com/
-    cd code/
+Instructions are currently WIP.
+
+They can be found in `doc/README.md`.
