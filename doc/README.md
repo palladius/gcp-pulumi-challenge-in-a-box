@@ -14,3 +14,4 @@ In this instance, we’ll create a new GCS bucket which will allow us to store o
 We’ll also ensure that this bucket is private.
 
     TODO(): create Bucket code possibly using GCP Native library for `TS`.
+    See 02-script.ts
