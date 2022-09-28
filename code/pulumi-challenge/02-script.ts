@@ -13,3 +13,46 @@ const bucket = new gcp.storage.Bucket("mybucket", {
 export const bucketName = bucket.url;
 
 export const readme = 'startup-in-a-box: Created bucket';
+
+export const bucket;
+
+export class Script2 {
+    //bucketname: string;
+
+    constructor(){
+        //this.name = name;
+        // Create a GCP resource (Storage Bucket)
+        const bucket = new gcp.storage.Bucket("mybucket", {
+            location: "US"
+        });
+
+        // Make sure bucket is private
+        // NOOP
+
+        // Export the DNS name of the bucket
+        export const bucketName = bucket.url;
+
+        export const readme = 'startup-in-a-box: Created bucket';
+
+        export const bucket;
+    }
+  }
+
+function funcA() {
+    const bucket = new gcp.storage.Bucket("mybucket", {
+        location: "US"
+    });
+
+    // Make sure bucket is private
+    // NOOP
+
+    // Export the DNS name of the bucket
+    export const bucketName = bucket.url;
+
+    export const readme = 'startup-in-a-box: Created bucket';
+
+    export const bucket;
+}
+function funcB() { /* do something */ }
+
+export default { funcA, funcB };
