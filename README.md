@@ -2,7 +2,15 @@
 
 This repo contains the GCP version of Challenge in a Box (https://www.pulumi.com/challenge/startup-in-a-box/).
 
-Currently *work in progress*.
+Currently *work in progress*. Status:
+
+* ✅ Step 1
+* ✅ Step 2
+* ✅ Step 3
+* ❌ Step 4
+* ❌ Step 5
+* ❌ Step 6
+* ❌ Step 7
 
 ## Step 1. Your First Pulumi Program
 
@@ -30,8 +38,4 @@ We’ll also ensure that this bucket is private.
 
 # Contributing
 
-File a PR or check b/249255419
 
-* ricc@
-* timhiatt@
-* cstanger@
