@@ -7,7 +7,7 @@ Currently *work in progress*. Status:
 * ✅ Step 1
 * ✅ Step 2
 * ✅ Step 3
-* ❌ Step 4
+* 🟠 Step 4 (implemented but not tested)
 * ❌ Step 5
 * ❌ Step 6
 * ❌ Step 7
