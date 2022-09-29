@@ -11,4 +11,4 @@ Created resources:
 Cloud console URLs for lazy folks like Riccardo:
 
 * CDN: https://console.cloud.google.com/net-services/cdn/list?project=${outputs.projectId}
-* Bucket Listing: https://console.cloud.google.com/storage/browser/${outputs.bucketName}
+* Bucket Listing: https://console.cloud.google.com/storage/browser/${outputs.bucketDepuredName}

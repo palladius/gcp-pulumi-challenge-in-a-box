@@ -128,3 +128,4 @@ export const bucketName = bucket.url;
 
 export const readme = fs.readFileSync("./Pulumi.README.md").toString();
 export const projectId = new pulumi.Config('gcp').require("project");
+export const bucketDepuredName = bucket.name // without gs://
