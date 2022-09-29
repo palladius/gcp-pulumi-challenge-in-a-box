@@ -1,6 +1,6 @@
 # gcp-pulumi-challenge-in-a-box
 
-This repo contains the GCP version of Challenge in a Box (https://www.pulumi.com/challenge/startup-in-a-box/).
+[This repo](https://github.com/palladius/gcp-pulumi-challenge-in-a-box) contains the GCP version of Challenge in a Box (https://www.pulumi.com/challenge/startup-in-a-box/).
 
 Currently *work in progress*. Status:
 
@@ -34,8 +34,11 @@ We’ll also ensure that this bucket is private.
 
 
 
+# Appendix
 
+Similar code which can be used for inspiration:
 
-# Contributing
+* https://github.com/jaxxstorm/pulumi-gcp-workshop (found in Lee Briggs [video](https://www.pulumi.com/resources/getting-started-with-google-cloud-platform/))
+* static-website-gcp-typescript [code](https://github.com/pulumi/templates/blob/master/static-website-gcp-typescript/index.ts)
 
-
+Self: https://github.com/palladius/gcp-pulumi-challenge-in-a-box
