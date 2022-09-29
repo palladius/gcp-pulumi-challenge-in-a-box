@@ -98,7 +98,7 @@ export const bucketName = bucket.url;
     // TODO gsutil iam ch allUsers:objectViewer gs://BUCKET_1_NAME
 
     // create public IP: https://www.pulumi.com/registry/packages/gcp/api-docs/compute/address/
-    const websitePublicIp = new gcp.compute.Address("challenge-website-useless", {});
+    //const websitePublicIp = new gcp.compute.Address("challenge-website-useless", {});
 
     //const websiteFwdRule = new gcp.compute.ForwardingRule("website",{});
 
@@ -176,4 +176,4 @@ export const readme = fs.readFileSync("./Pulumi.README.md").toString();
 export const projectId = new pulumi.Config('gcp').require("project");
 export const bucketDepuredName = bucket.name // without gs://
 
-export const websitePublicIpAddress = websitePublicIp.address;
+//export const websitePublicIpAddress = websitePublicIp.address;

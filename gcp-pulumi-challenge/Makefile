@@ -1,4 +1,5 @@
-
+init:
+	pulumi stack select dev
 
 up:
 	pulumi up --yes
@@ -9,3 +10,8 @@ lookup-gcs-files:
 # TODO
 #lint:
 #	npm run lint
+
+curls:
+	./check-curls.sh
+
+
