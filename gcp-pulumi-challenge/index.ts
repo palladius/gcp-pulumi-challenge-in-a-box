@@ -36,6 +36,7 @@ fs.readdirSync(staticWebsiteDirectory).forEach((file) => {
     bucket: bucket.id,
     source: new pulumi.asset.FileAsset(filePath),
     contentType: mime.getType(filePath) || undefined,
+    name: filePath, // AWESOME!! remove pseudorandom.
     //acl: aws.s3.PublicReadAcl,
     //acl: gcp.storage.BucketACL()
   });
@@ -97,7 +98,9 @@ export const bucketName = bucket.url;
     // TODO gsutil iam ch allUsers:objectViewer gs://BUCKET_1_NAME
 
     // create public IP: https://www.pulumi.com/registry/packages/gcp/api-docs/compute/address/
-    const websitePublicIp = new gcp.compute.Address("challenge-website", {});
+    const websitePublicIp = new gcp.compute.Address("challenge-website-useless", {});
+
+    //const websiteFwdRule = new gcp.compute.ForwardingRule("website",{});
 
     // TODO create UTLMAP
     const websiteUrlMap = new gcp.compute.URLMap("website-um", {
@@ -114,6 +117,20 @@ export const bucketName = bucket.url;
     });
     //# gcloud compute url-maps create http-lb \
     //#--default-backend-bucket=cats
+    const defaultTargetHttpProxy = new gcp.compute.TargetHttpProxy("website", {
+        description: "a description",
+        urlMap: websiteUrlMap.id,
+    });
+    const defaultGlobalForwardingRule = new gcp.compute.GlobalForwardingRule("fwdrl-website", {
+        target: defaultTargetHttpProxy.id,
+        portRange: "80",
+        // can attach ip here.
+        //ipAddress: websitePublicIp.selfLink,
+        loadBalancingScheme: "EXTERNAL_MANAGED",
+    });
+
+
+    export const fwdrulePublicIp = defaultGlobalForwardingRule.ipAddress;
 
 
 
