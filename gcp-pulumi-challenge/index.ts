@@ -4,7 +4,10 @@ import * as fs from "fs";
 import * as mime from "mime";
 
 
-// STEP 2
+//////////////////////////////////////////////////////
+// STEP 2 BEGIN
+//////////////////////////////////////////////////////
+
 // Create a GCP resource (Storage Bucket)
 const bucket = new gcp.storage.Bucket("mybucket", {
     location: "US"
@@ -13,8 +16,13 @@ const bucket = new gcp.storage.Bucket("mybucket", {
 // Make sure bucket is private
 // NOOP
 
+//////////////////////////////////////////////////////
+// STEP 2 END
+//////////////////////////////////////////////////////
+//////////////////////////////////////////////////////
+// STEP 3 BEGIN
+//////////////////////////////////////////////////////
 
-// STEP 3
 // Create a GCP resource (Storage Bucket)
 const staticWebsiteDirectory = "website";
 
@@ -34,7 +42,10 @@ fs.readdirSync(staticWebsiteDirectory).forEach((file) => {
 
 // Export the DNS name of the bucket
 export const bucketName = bucket.url;
+export const readme = 'startup-in-a-box: Created bucket {output.bucketName}';
+//export const bucket;
 
-export const readme = 'startup-in-a-box: Created bucket';
+//////////////////////////////////////////////////////
+// STEP 3 END
+//////////////////////////////////////////////////////
 
-export const bucket;

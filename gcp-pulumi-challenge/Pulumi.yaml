@@ -1,3 +1,5 @@
 name: pulumi-challenge
-description: A minimal Google Cloud TypeScript Pulumi program
+description: |
+  Pulumi Challenge Startup-in-a-box on GCP,
+  written in TypeScript.
 runtime: nodejs
