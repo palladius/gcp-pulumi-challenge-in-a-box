@@ -14,6 +14,11 @@ import { BackendBucket } from "@pulumi/gcp/compute";
 const bucket = new gcp.storage.Bucket("my-public-bucket", {
     location: "US"
 });
+const publicRule = new gcp.storage.BucketAccessControl("publicRule", {
+    bucket: bucket.name,
+    role: "READER",
+    entity: "allUsers",
+});
 
 // Make sure bucket is private
 // NOOP
@@ -36,7 +41,7 @@ fs.readdirSync(staticWebsiteDirectory).forEach((file) => {
     bucket: bucket.id,
     source: new pulumi.asset.FileAsset(filePath),
     contentType: mime.getType(filePath) || undefined,
-    name: filePath, // AWESOME!! remove pseudorandom.
+    name: file, // AWESOME!! remove pseudorandom.
     //acl: aws.s3.PublicReadAcl,
     //acl: gcp.storage.BucketACL()
   });
