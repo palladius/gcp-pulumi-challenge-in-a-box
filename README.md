@@ -1,17 +1,17 @@
-# gcp-pulumi-challenge-in-a-box
+# Step 1. Your First Pulumi Program
 
-This repo contains the GCP version of Challenge in a Box (https://www.pulumi.com/challenge/startup-in-a-box/)
+You will learn how to create a new Pulumi program using our Pulumi templates,
+specifically for `GCP` with TypeScript.
 
-# Instructions
+Create a new directory called `pulumi-challenge` and run the following inside of it:
 
-Instructions are currently WIP.
+    pulumi new gcp-typescript
 
-They can be found in `doc/README.md`.
+# Step 2. Creating Your First Resource
 
-# Contributions
+Now that we have a base GCP project configured, we need to create our first resource.
+In this instance, we’ll create a new GCS bucket which will allow us to store our static website.
+We’ll also ensure that this bucket is private.
 
-File a PR or check b/249255419
-
-* ricc@
-* timhiatt@
-* cstanger@
+    TODO(): create Bucket code possibly using GCP Native library for `TS`.
+    See 02-script.ts
