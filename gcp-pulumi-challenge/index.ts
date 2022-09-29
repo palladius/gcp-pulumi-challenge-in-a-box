@@ -3,6 +3,7 @@ import * as gcp from "@pulumi/gcp";
 import * as fs from "fs";
 import * as mime from "mime";
 import { Config } from "@pulumi/gcp/runtimeconfig";
+import { BackendBucket } from "@pulumi/gcp/compute";
 
 
 //////////////////////////////////////////////////////
@@ -46,6 +47,7 @@ fs.readdirSync(staticWebsiteDirectory).forEach((file) => {
     // gs://mybucket-830f466/style.css-c8fa397
 
     // TODO(): export the names
+    // TODO(ricc): make bucket content PUBLIC.
 });
 
 // Export the DNS name of the bucket
@@ -89,6 +91,30 @@ export const bucketName = bucket.url;
 
     export const websiteBackendName = websiteBackend.name;
 
+    // ricc: this only creates the BucketBE, not the FE.
+    // instructions from pulumi site point to: https://cloud.google.com/load-balancing/docs/https/ext-load-balancer-backend-buckets#gcloudgsutil_3
+
+    // TODO gsutil iam ch allUsers:objectViewer gs://BUCKET_1_NAME
+
+    // create public IP: https://www.pulumi.com/registry/packages/gcp/api-docs/compute/address/
+    const websitePublicIp = new gcp.compute.Address("challenge-website", {});
+
+    // TODO create UTLMAP
+    const websiteUrlMap = new gcp.compute.URLMap("website-um", {
+        defaultService: websiteBackend.selfLink,
+        // inspired by: https://github.com/pulumi/pulumi-gcp/blob/master/examples/loadbalancer/index.ts
+        // pathRules: [
+        //     {
+        //         paths: [
+        //             "/video",
+        //             "/video/*",
+        //         ],
+        //     }
+        // ],
+    });
+    //# gcloud compute url-maps create http-lb \
+    //#--default-backend-bucket=cats
+
 
 
 //////////////////////////////////////////////////////
@@ -99,6 +125,9 @@ export const bucketName = bucket.url;
 //////////////////////////////////////////////////////
 // STEP 5 BEGIN
 //////////////////////////////////////////////////////
+
+// [ricc] please help. Im not able to refactor TS code :)
+
 //////////////////////////////////////////////////////
 // STEP 5 END
 //////////////////////////////////////////////////////
@@ -129,3 +158,5 @@ export const bucketName = bucket.url;
 export const readme = fs.readFileSync("./Pulumi.README.md").toString();
 export const projectId = new pulumi.Config('gcp').require("project");
 export const bucketDepuredName = bucket.name // without gs://
+
+export const websitePublicIpAddress = websitePublicIp.address;
