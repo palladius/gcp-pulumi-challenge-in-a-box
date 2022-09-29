@@ -11,3 +11,8 @@ mkdir -p "$DIRNAME" &&
 
 # step 3
 npm install mime @types/mime
+
+
+
+# steps 6
+npm install @checkly/pulumi
