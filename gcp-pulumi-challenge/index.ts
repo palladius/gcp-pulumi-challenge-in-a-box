@@ -11,7 +11,7 @@ import { BackendBucket } from "@pulumi/gcp/compute";
 //////////////////////////////////////////////////////
 
 // Create a GCP resource (Storage Bucket)
-const bucket = new gcp.storage.Bucket("mybucket", {
+const bucket = new gcp.storage.Bucket("my-public-bucket", {
     location: "US"
 });
 
