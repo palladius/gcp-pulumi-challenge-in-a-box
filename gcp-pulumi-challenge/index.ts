@@ -13,22 +13,22 @@ import { BackendBucket } from "@pulumi/gcp/compute";
 // [ricc] probably we should choose only one. These bools are for me to be able
 // to remove the one we dont want when everything works. For now, double public
 // is ok.
-let BucketLevelPublicAccess = true;
-let ObjectLevelPublicAccess = true;
+//let BucketLevelPublicAccess: boolean = true;
+let ObjectLevelPublicAccess: boolean = true;
 
 // Create a GCP resource (Storage Bucket)
-const bucket = new gcp.storage.Bucket("my-public-bucket", {
+const bucket = new gcp.storage.Bucket("my-eu-public-bucket", {
     location: "EU",
-    uniformBucketLevelAccess: true, // on the bucket.
+    uniformBucketLevelAccess: false, // with next part, makes it publicly available.
 });
 
-if (BucketLevelPublicAccess) {
-    const publicRule = new gcp.storage.BucketAccessControl("publicRule", {
-        bucket: bucket.name,
-        role: "READER",
-        entity: "allUsers",
-    });
-}
+// if (BucketLevelPublicAccess) {
+//     const publicRule = new gcp.storage.BucketAccessControl("publicRule", {
+//         bucket: bucket.name,
+//         role: "READER",
+//         entity: "allUsers",
+//     });
+// }
 // Make sure bucket is private
 // NOOP
 
@@ -58,24 +58,32 @@ const staticWebsiteDirectory = "website";
 //     ],
 // });
 
-let myObjectsHash = {};
-let gcsObjectsOutputHash = {};
-let myObjectsOutputsHash = {};
+// let myObjectsHash = {};
+// let gcsObjectsOutputHash = {};
+// let myObjectsOutputsHash = {};
+// let fileCounter = 0;
+// //let fruits: string[] = ['Apple', 'Orange', 'Banana'];
+// let gcsObjectArray: Array<string>; // = ['Apple', 'Orange', 'Banana'];
+// //gcsObjectArray[2] = 'change';
 
 fs.readdirSync(staticWebsiteDirectory).forEach((file) => {
   const filePath = `${staticWebsiteDirectory}/${file}`;
   const fileContent = fs.readFileSync(filePath).toString();
+  //fileCounter = fileCounter +1;
 
 
+  // todo create many
   const gcsObject = new gcp.storage.BucketObject(file, {
     bucket: bucket.id,
     source: new pulumi.asset.FileAsset(filePath),
     contentType: mime.getType(filePath) || undefined,
     name: file, // AWESOME!! remove pseudorandom.
-    //acl: aws.s3.PublicReadAcl,
-    //acl: gcp.storage.BucketACL()
-    //acl: {image_store_default_acl}, //  gcsObjectPublicAcl,
   });
+
+//   if (file == 'index.html') {
+//       export const indexFileRealName = gcsObject.name ;
+//   }
+  //gcsObjectArray.push(file);
 
     // ricc test: objectACL: https://www.pulumi.com/registry/packages/gcp/api-docs/storage/objectacl/
     // this is giving public access at ObjectLevel
@@ -91,9 +99,10 @@ fs.readdirSync(staticWebsiteDirectory).forEach((file) => {
     }
 
     // TODO(): export the names
-    //export const
-    //myObjectsOutputsHash[file] = file;
+//    export const myObjectsOutputsHash[file] = file;
 });
+
+//export const indexPseudorandomFilename = gcsObject[0].name
 
 // Export the DNS name of the bucket
 export const bucketName = bucket.url;

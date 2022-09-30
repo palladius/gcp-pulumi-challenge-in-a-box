@@ -1,4 +1,0 @@
-# riccardo config shared with other folks.
-config:
-  gcp:project: "gcp-pulumi-challenge-in-a-box"
-  gcp:region: europe-west1

@@ -1,0 +1,5 @@
+# This is how your config could look like...
+config:
+  gcp:project: gcp-pulumi-challenge-in-a-box
+  gcp:region: europe-west2
+  pulumi-challenge:answer: 54

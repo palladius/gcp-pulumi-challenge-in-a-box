@@ -19,7 +19,11 @@ specifically for `GCP` with TypeScript.
 
 Create a new directory called `pulumi-challenge` and run the following inside of it:
 
+    # set up environment
     pulumi new gcp-typescript
+    # Set up your project id and possibly the region
+    pulumi config set gcp:project gcp-pulumi-challenge-in-a-box # or whatever your porjectid is
+    pulumi config set gcp:region europe-west1
 
 ## Step 2. Creating Your First Resource
 
