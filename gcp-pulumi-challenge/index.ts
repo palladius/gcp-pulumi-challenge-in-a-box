@@ -10,16 +10,25 @@ import { BackendBucket } from "@pulumi/gcp/compute";
 // STEP 2 BEGIN
 //////////////////////////////////////////////////////
 
+// [ricc] probably we should choose only one. These bools are for me to be able
+// to remove the one we dont want when everything works. For now, double public
+// is ok.
+let BucketLevelPublicAccess = true;
+let ObjectLevelPublicAccess = true;
+
 // Create a GCP resource (Storage Bucket)
 const bucket = new gcp.storage.Bucket("my-public-bucket", {
-    location: "US"
-});
-const publicRule = new gcp.storage.BucketAccessControl("publicRule", {
-    bucket: bucket.name,
-    role: "READER",
-    entity: "allUsers",
+    location: "EU",
+    uniformBucketLevelAccess: true, // on the bucket.
 });
 
+if (BucketLevelPublicAccess) {
+    const publicRule = new gcp.storage.BucketAccessControl("publicRule", {
+        bucket: bucket.name,
+        role: "READER",
+        entity: "allUsers",
+    });
+}
 // Make sure bucket is private
 // NOOP
 
@@ -51,6 +60,7 @@ const staticWebsiteDirectory = "website";
 
 let myObjectsHash = {};
 let gcsObjectsOutputHash = {};
+let myObjectsOutputsHash = {};
 
 fs.readdirSync(staticWebsiteDirectory).forEach((file) => {
   const filePath = `${staticWebsiteDirectory}/${file}`;
@@ -68,17 +78,21 @@ fs.readdirSync(staticWebsiteDirectory).forEach((file) => {
   });
 
     // ricc test: objectACL: https://www.pulumi.com/registry/packages/gcp/api-docs/storage/objectacl/
-    //const myObjectsHash[file] =
-    new gcp.storage.ObjectACL(
-        `acl-for-${file}`, {
-            bucket: bucket.id,
-            object: gcsObject.outputName,
-            roleEntities: [
-                "READER:allUsers",
-            ],
-    });
+    // this is giving public access at ObjectLevel
+    if (ObjectLevelPublicAccess) {
+        new gcp.storage.ObjectACL(
+            `acl-for-${file}`, {
+                bucket: bucket.id,
+                object: gcsObject.outputName,
+                roleEntities: [
+                    "READER:allUsers",
+                ],
+        });
+    }
 
     // TODO(): export the names
+    //export const
+    //myObjectsOutputsHash[file] = file;
 });
 
 // Export the DNS name of the bucket
