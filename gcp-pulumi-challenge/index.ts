@@ -33,27 +33,52 @@ const publicRule = new gcp.storage.BucketAccessControl("publicRule", {
 // Create a GCP resource (Storage Bucket)
 const staticWebsiteDirectory = "website";
 
+// const gcsObjectPublicAcl = new gcp.storage.BucketACL("website-objects-public",{
+// //    roleEntities = ["allUsers", ],
+//     role: "READER",
+//     entity: "allUsers",
+// })
+
+// ricc test: https://www.pulumi.com/registry/packages/gcp/api-docs/storage/defaultobjectacl/
+// const image_store_default_acl = new gcp.storage.DefaultObjectACL("image-store-default-acl", {
+//     bucket: image_store.name,
+//     roleEntities: [
+//         //"OWNER:user-my.email@gmail.com",
+//         //"READER:group-mygroup",
+//         "READER:allUsers",
+//     ],
+// });
+
+let myObjectsHash = {};
+let gcsObjectsOutputHash = {};
+
 fs.readdirSync(staticWebsiteDirectory).forEach((file) => {
   const filePath = `${staticWebsiteDirectory}/${file}`;
   const fileContent = fs.readFileSync(filePath).toString();
 
-  new gcp.storage.BucketObject(file, {
+
+  const gcsObject = new gcp.storage.BucketObject(file, {
     bucket: bucket.id,
     source: new pulumi.asset.FileAsset(filePath),
     contentType: mime.getType(filePath) || undefined,
     name: file, // AWESOME!! remove pseudorandom.
     //acl: aws.s3.PublicReadAcl,
     //acl: gcp.storage.BucketACL()
+    //acl: {image_store_default_acl}, //  gcsObjectPublicAcl,
   });
 
-  // ricc: not sure why object gets pseudorandom addon :/
-  // note all files will have pseudo-random names, eg:
-    // gs://mybucket-830f466/index.html-7c0a60b
-    // gs://mybucket-830f466/normalize.css-b568868
-    // gs://mybucket-830f466/style.css-c8fa397
+    // ricc test: objectACL: https://www.pulumi.com/registry/packages/gcp/api-docs/storage/objectacl/
+    //const myObjectsHash[file] =
+    new gcp.storage.ObjectACL(
+        `acl-for-${file}`, {
+            bucket: bucket.id,
+            object: gcsObject.outputName,
+            roleEntities: [
+                "READER:allUsers",
+            ],
+    });
 
     // TODO(): export the names
-    // TODO(ricc): make bucket content PUBLIC.
 });
 
 // Export the DNS name of the bucket
