@@ -27,8 +27,18 @@ Now that we have a base GCP project configured, we need to create our first reso
 In this instance, we’ll create a new GCS bucket which will allow us to store our static website.
 We’ll also ensure that this bucket is private.
 
-    TODO(): create Bucket code possibly using GCP Native library for `TS`.
-    See 02-script.ts
+    // creae bucket
+    const bucket = new gcp.storage.Bucket("my-public-bucket", {
+        location: "US"
+    });
+    // make it public
+    const publicRule = new gcp.storage.BucketAccessControl("publicRule", {
+        bucket: bucket.name,
+        role: "READER",
+        entity: "allUsers",
+    });
+
+## Step 3. TODO
 
 
 
