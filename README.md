@@ -7,8 +7,8 @@ Currently *work in progress*. Status:
 * ✅ Step 1
 * ✅ Step 2
 * ✅ Step 3
-* ✅ Step 4 (implemented and tested)
-* ❌ Step 5
+* ✅ Step 4 (implemented and tested): find them in `index-pre-refactor.ts`
+* ✅ Step 5 (refactored in the new `index.ts` + `cdn-website.ts`)
 * ❌ Step 6
 * ❌ Step 7
 
@@ -31,21 +31,39 @@ Now that we have a base GCP project configured, we need to create our first reso
 In this instance, we’ll create a new GCS bucket which will allow us to store our static website.
 We’ll also ensure that this bucket is private.
 
-    // creae bucket
-    const bucket = new gcp.storage.Bucket("my-public-bucket", {
-        location: "US"
-    });
-    // make it public
-    const publicRule = new gcp.storage.BucketAccessControl("publicRule", {
-        bucket: bucket.name,
-        role: "READER",
-        entity: "allUsers",
-    });
+```typescript
+import * as pulumi from "@pulumi/pulumi";
+import * as gcp from "@pulumi/gcp";
 
-## Step 3. TODO
+// Create a GCP resource (Storage Bucket)
+const bucket = new gcp.storage.Bucket("mybucket", {
+    location: "US"
+});
 
+// Create an IAM binding to allow public read access to the bucket.
+const bucketIamBinding = new gcp.storage.BucketIAMBinding("bucket-iam-binding", {
+    bucket: bucket.name,
+    role: "roles/storage.objectViewer",
+    members: ["allUsers"],
+});
+```
+## Step 3. Working with Local Files
 
+`TODO(): description`
 
+Code:
+
+```typescript
+import * as synced_folder from "@pulumi/synced-folder";
+
+const config = new pulumi.Config();
+const path = config.get("path") || "./website";
+// Use a synced folder to manage the files of the website.
+const syncedFolder = new synced_folder.GoogleCloudFolder("synced-folder", {
+    path: path,
+    bucketName: bucket.name,
+});
+```
 
 
 # Appendix
