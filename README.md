@@ -12,6 +12,11 @@ Currently *work in progress*. Status:
 * ❌ Step 6
 * ❌ Step 7
 
+
+## Startup in a Box
+
+Thinking about turning that side project into a little something more? Follow along to stand up a website for your startup on Google Cloud Storage with GCP Load Balancer and Checkly, all using Pulumi. When you're done, we'll send you a fancy drink tumbler with a special Pulumipus on it, just for this Challenge!
+
 ## Step 1. Your First Pulumi Program
 
 You will learn how to create a new Pulumi program using our Pulumi templates,
