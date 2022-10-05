@@ -72,40 +72,41 @@ const syncedFolder = new synced_folder.GoogleCloudFolder("synced-folder", {
 We need our actual website too, though. Create a directory called website at `pulumi-challenge/website`, and inside it, add `index.html`, `style.css`, and `normalize.css`.
 
 For `index.html`, we have the structure of a simple website, with places to put links to your project’s GitHub and Twitter, as well as your LinkedIn:
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="utf-8">
-  <title>Pulumi Challenge</title>
-  <link rel="stylesheet" href="style.css">
-  <link rel="stylesheet" href="normalize.css">
-</head>
-<body>
-  <header>
-    <!-- The logo here is pulled from FontAwesome. Replace it with your own if you like! -->
-    <div class="logo">
-      <ul>
-      <li><i class="fas fa-feather"></i></li>
-      <li><p>Company Name</p></li>
-      </ul>
+```html
+    <!DOCTYPE html>
+    <html>
+    <head>
+    <meta charset="utf-8">
+    <title>Pulumi Challenge</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="normalize.css">
+    </head>
+    <body>
+    <header>
+        <!-- The logo here is pulled from FontAwesome. Replace it with your own if you like! -->
+        <div class="logo">
+        <ul>
+        <li><i class="fas fa-feather"></i></li>
+        <li><p>Company Name</p></li>
+        </ul>
+        </div>
+        <ul class="social">
+        <!-- Add your GitHub and social links here! -->
+                    <li><a href="http://github.com/" target="_blank"><i class="fab fa-github-alt"></i></a></li>
+                    <li><a href="http://twitter.com/" target="_blank"><i class="fab fa-twitter"></i></a></li>
+                    <li><a href="http://linkedin.com/" target="_blank"><i class="fab fa-linkedin-in"></i></a></li>
+                </ul>
+    </header>
+    <div class="banner">
+    <!-- Fill in the blanks for your startup's pitch! -->
+        <h1>Your Startup Name Here</h1>
+        <h3>Your Tagline</h3>
+        <p>We're $CompanyName, and we're changing what it means to $Task. Our innovative use of $Technology makes life easier for $JobTitles, so they can focus on what they're really good at instead of wasting time and effort on $MenialOrDifficultTask. Streamline your $TaskProcess with $Product and take to the skies!</p>
     </div>
-    <ul class="social">
-      <!-- Add your GitHub and social links here! -->
-                <li><a href="http://github.com/" target="_blank"><i class="fab fa-github-alt"></i></a></li>
-                <li><a href="http://twitter.com/" target="_blank"><i class="fab fa-twitter"></i></a></li>
-                <li><a href="http://linkedin.com/" target="_blank"><i class="fab fa-linkedin-in"></i></a></li>
-            </ul>
-  </header>
-<div class="banner">
-  <!-- Fill in the blanks for your startup's pitch! -->
-    <h1>Your Startup Name Here</h1>
-    <h3>Your Tagline</h3>
-    <p>We're $CompanyName, and we're changing what it means to $Task. Our innovative use of $Technology makes life easier for $JobTitles, so they can focus on what they're really good at instead of wasting time and effort on $MenialOrDifficultTask. Streamline your $TaskProcess with $Product and take to the skies!</p>
-</div>
-</body>
-<script src="https://kit.fontawesome.com/b4747495ea.js" crossorigin="anonymous"></script>
-</html>
-
+    </body>
+    <script src="https://kit.fontawesome.com/b4747495ea.js" crossorigin="anonymous"></script>
+    </html>
+```
 Both `style.css` and `normalize.css` files can be copied from our [GitHub](https://github.com/palladius/gcp-pulumi-challenge-in-a-box/tree/main/gcp-pulumi-challenge/website) CHANGE TO FINAL GITHUB PAGE (PSO PUBLIC?)
 
 ## Step 4. Creating a CDN
