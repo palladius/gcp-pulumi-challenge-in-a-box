@@ -24,13 +24,14 @@ specifically for `GCP` with TypeScript.
 
 Create a new directory called `pulumi-challenge` and run the following inside of it:
 ```cli
+    # create the directory
+    mkdir -p pulumi-challenge && cd pulumi-challenge
+
     # set up environment
     pulumi new gcp-typescript
 
-    # Set up your project id and possibly the region
+    # Set up your project id and possibly the region. For example:
     pulumi config set gcp:project `gcp-pulumi-challenge-in-a-box` 
-
-    # or whatever your porjectid is
     pulumi config set gcp:region europe-west1
 ```
 
@@ -43,9 +44,12 @@ In this instance, we’ll create a new GCS bucket which will allow us to store o
 import * as pulumi from "@pulumi/pulumi";
 import * as gcp from "@pulumi/gcp";
 
-// Create a GCP resource (Storage Bucket)
+// Create a GCP resource (Storage Bucket) and configure it to host static web assets.
 const bucket = new gcp.storage.Bucket("mybucket", {
     location: "US"
+    website: {
+      mainPageSuffix: "index.html",
+    },
 });
 
 // Create an IAM binding to allow public read access to the bucket.
@@ -125,6 +129,7 @@ Both `style.css` and `normalize.css` files can be copied from our [GitHub](https
 Next, we want to front our Cloud Storage Bucket with a Load Balancer and enable its CDN capabilities. 
 
 ```typescript
+// Configure the storage bucket as a backend bucket for load balancing.
 const backendBucket = new gcp.compute.BackendBucket("backend-bucket", {
     bucketName: bucket.name,
     enableCdn: true,
@@ -181,7 +186,7 @@ export class CdnWebsite extends pulumi.ComponentResource {
             bucketName: this.bucket.name,
         });
 
-        // Google Cloud Load Balancer Backend
+        // Configure the storage bucket as a backend bucket for load balancing.
         this.backendBucket = new gcp.compute.BackendBucket("backend-bucket", {
             bucketName: this.bucket.name,
             enableCdn: true,
@@ -224,22 +229,11 @@ export const cdnUrl = website.url;
 ```
 
 ## Step 6. Adding Another Provider
-Now that we have our website being delivered as fast as possible via our CdnWebsite component and Cloud CDN, how do we know that what we’ve deployed actually works? We could leverage a fantastic service, such as Checkly, to ensure our website passes some sanity checks.
+Now that we have our website being delivered as fast as possible via our CdnWebsite component and Cloud CDN, how do we know that what we’ve deployed actually works? We could leverage a fantastic service, such as [Checkly](https://www.checklyhq.com/), to ensure our website passes some sanity checks.
 
 
 First, we need to add a new provider:
 ```cli
-npm install @checkly/pulumi
-
-# API KEY: https://app.checklyhq.com/settings/account/api-keys
-pulumi config set checkly:apiKey --secret
-
-# AccountID: https://app.checklyhq.com/settings/account/general
-pulumi config set checkly:accountId
-```
-Next, we can use this in our code.
-
-```typescript
 npm install @checkly/pulumi
 
 # API KEY: https://app.checklyhq.com/settings/account/api-keys
@@ -258,6 +252,7 @@ new checkly.Check("index-page", {
   activated: true,
   frequency: 10,
   type: "BROWSER",
+   // Change to your region if it's not eu-west-2
   locations: ["eu-west-2"],
   script: websiteUrl.apply((url) =>
     fs
@@ -356,6 +351,7 @@ const swag = new Swag("your-startup", {
   name: "YOUR NAME",
   email: "YOUR EMAIL",
   address: "YOUR ADDRESS",
+  // Change to your size, such as "S" or "M"
   size: SIZE,
 });
 ```

@@ -14,6 +14,7 @@ new checkly.Check("index-page", {
   activated: true,
   frequency: 10,
   type: "BROWSER",
+  // Change to your region if it's not eu-west-2
   locations: ["eu-west-2"],
   script: cdnUrl.apply((url) =>
     fs
@@ -31,5 +32,6 @@ const swag = new Swag("your-startup", {
   name: "YOUR NAME",
   email: "YOUR EMAIL",
   address: "YOUR ADDRESS",
+  // Change to your size, such as "S" or "M"
   size: SIZE,
 });

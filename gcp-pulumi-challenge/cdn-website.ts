@@ -12,7 +12,10 @@ export class CdnWebsite extends pulumi.ComponentResource {
         super("pulumi:challenge:CdnWebsite", name, args, opts);
 
         this.bucket = new gcp.storage.Bucket("mybucket", {
-            location: "US"
+            location: "US",
+            website: {
+                mainPageSuffix: "index.html",
+            },
         });
 
         const bucketIamBinding = new gcp.storage.BucketIAMBinding("bucket-iam-binding", {
@@ -29,6 +32,7 @@ export class CdnWebsite extends pulumi.ComponentResource {
             bucketName: this.bucket.name,
         });
 
+        // Configure the storage bucket as a backend bucket for load balancing.
         this.backendBucket = new gcp.compute.BackendBucket("backend-bucket", {
             bucketName: this.bucket.name,
             enableCdn: true,
